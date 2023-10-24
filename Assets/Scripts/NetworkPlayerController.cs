@@ -17,22 +17,29 @@ public class NetworkPlayerController : MonoBehaviour
     [Header("Equip")]
     [SerializeField] WeaponController equipWeapon;
 
-    private PhotonView photonView; 
+    private PhotonView photonView;
+    [SerializeField]
+    private Transform camPivot;
+    [SerializeField]
+    private MeshRenderer meshRenderer;
     private void Awake()
     {
         // 1.
         rigid = GetComponent<Rigidbody>();
-        photonView=GetComponent<PhotonView>();
+        photonView = GetComponent<PhotonView>();
 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-
-        // 1. 마우스 커서 관련
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        if (photonView.IsMine)//=> 각 플레이어 카메라 위치를 조정해주는거(멀티플레이 일때 각자 자기 캐릭터에 따라
+                              //카메라를 이동해야 하므로)
+        {
+            Camera.main.transform.parent = camPivot;
+            Camera.main.transform.localPosition = camPivot.localPosition;
+            Camera.main.transform.localRotation = camPivot.localRotation;   
+        }
     }
 
     // Update is called once per frame
@@ -68,8 +75,26 @@ public class NetworkPlayerController : MonoBehaviour
             {
                 //2. 
                 equipWeapon.OnFire();
+                //원격 프로시져 호출(Remote Procedure Call)
+                //같은 룸에 있는 다른 유저의 함수를 호출하는 기능
+                photonView.RPC("ShoEffectProcess", RpcTarget.Others);//나를 제외하고 shote~ 저 함수를 호출
             }
         }
-       
+
+    }
+    [PunRPC]//원격 프로시져 호출이 가능해지게 하는거
+    private void ShoEffectProcess()
+    {
+        equipWeapon.OnFire();
+    }
+    public void OnHitBullet(GameObject obj)
+    {
+        StartCoroutine(HitChecking());
+    }
+    private IEnumerator HitChecking()
+    {
+        meshRenderer.material.color = Color.red;
+        yield return new WaitForSeconds(0.3f);
+        meshRenderer.material.color = Color.yellow;
     }
 }

@@ -1,3 +1,4 @@
+using Photon.Pun.Demo.Cockpit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,7 @@ namespace MultiPlayer.MainGameLogic
         {
             if (other.tag == "Player")
             {
+                other.GetComponentInParent<NetworkPlayerController>().OnHitBullet(gameObject);
                 gameObject.SetActive(false);
             }
             if (other.tag == "Environment")
