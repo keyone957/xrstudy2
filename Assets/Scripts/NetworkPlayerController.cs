@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class NetworkPlayerController : MonoBehaviour
 {
@@ -16,15 +17,19 @@ public class NetworkPlayerController : MonoBehaviour
     [Header("Equip")]
     [SerializeField] WeaponController equipWeapon;
 
+    private PhotonView photonView; 
     private void Awake()
     {
         // 1.
         rigid = GetComponent<Rigidbody>();
+        photonView=GetComponent<PhotonView>();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
+
         // 1. 마우스 커서 관련
         //Cursor.visible = false;
         //Cursor.lockState = CursorLockMode.Locked;
@@ -45,19 +50,26 @@ public class NetworkPlayerController : MonoBehaviour
         float h = Input.GetAxis("Horizontal");
         float r = Input.GetAxis("Mouse X");
 
-        Vector3 dir = (Vector3.forward * v) + (Vector3.right * h);
-        transform.Translate(dir.normalized * Time.deltaTime * moveSpeed, Space.Self);
-        transform.Rotate(Vector3.up * Time.deltaTime * turnRate * r);   // smoothDeltaTime
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (photonView.IsMine)
+        //현재 게임에서 내 객체인지 아닌지를 구분(다른 플레이어에게 인풋을 전달하지 않게 하기 위해)
+        //phtonView.Ismine은 현재 내 객체인지 아닌지를 구분한다.
         {
-            rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        }
+            Vector3 dir = (Vector3.forward * v) + (Vector3.right * h);
+            transform.Translate(dir.normalized * Time.deltaTime * moveSpeed, Space.Self);
+            transform.Rotate(Vector3.up * Time.deltaTime * turnRate * r);   // smoothDeltaTime
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            //2. 
-            equipWeapon.OnFire();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                rigid.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                //2. 
+                equipWeapon.OnFire();
+            }
         }
+       
     }
 }

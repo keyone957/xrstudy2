@@ -344,6 +344,8 @@ GameObject:
   - component: {fileID: 715350085683950481}
   - component: {fileID: 1572593625799136267}
   - component: {fileID: 8266969464899347219}
+  - component: {fileID: -1705520749217452612}
+  - component: {fileID: -3153423291913368139}
   m_Layer: 8
   m_Name: NetworkPlayer
   m_TagString: Untagged
@@ -412,6 +414,45 @@ MonoBehaviour:
   turnRate: 480
   jumpPower: 10
   equipWeapon: {fileID: 6420920622348972180}
+--- !u!114 &-1705520749217452612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4533187668417512671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents:
+  - {fileID: -3153423291913368139}
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &-3153423291913368139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4533187668417512671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &8866941934770031088
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,6 +50,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         roomSetting.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        NetworkGameManager.instance.isConnected = true;
         //커서 룸세팅 ui삭제
     }
     //룸 접속이 실패 됐을때 처리
@@ -70,6 +72,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         roomSetting.SetActive(false);
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        NetworkGameManager.instance.isConnected = true;
     }
     //룸 접속 종료 후 처리
     public override void OnLeftRoom()
